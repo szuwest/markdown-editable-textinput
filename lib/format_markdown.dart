@@ -49,7 +49,7 @@ class FormatMarkdown {
         replaceCursorIndex = 0;
         break;
       case MarkdownType.code:
-        changedData = '```${data.substring(fromIndex, toIndex)}```';
+        changedData = '\n```\n${data.substring(fromIndex, toIndex)}\n```\n';
         replaceCursorIndex = 3;
         break;
       case MarkdownType.blockquote:
@@ -68,6 +68,14 @@ class FormatMarkdown {
       case MarkdownType.image:
         changedData = '![$selectedText](${link ?? selectedText})';
         replaceCursorIndex = 3;
+        break;
+      case MarkdownType.checkedBox:
+        changedData = '- [x] ${data.substring(fromIndex, toIndex)}';
+        replaceCursorIndex = 0;
+        break;
+        case MarkdownType.uncheckedBox:
+        changedData = '- [ ] ${data.substring(fromIndex, toIndex)}';
+        replaceCursorIndex = 0;
         break;
     }
 
@@ -101,12 +109,6 @@ enum MarkdownType {
   /// For _italic_ text
   italic,
 
-  /// For ~~strikethrough~~ text
-  strikethrough,
-
-  /// For [link](https://flutter.dev)
-  link,
-
   /// For # Title or ## Title or ### Title
   title,
 
@@ -116,8 +118,14 @@ enum MarkdownType {
   ///   * Item 3
   list,
 
-  /// For ```code``` text
-  code,
+  /// checked box
+  checkedBox,
+
+  ///unchecked box
+  uncheckedBox,
+
+  /// For ~~strikethrough~~ text
+  strikethrough,
 
   /// For :
   ///   > Item 1
@@ -125,11 +133,17 @@ enum MarkdownType {
   ///   > Item 3
   blockquote,
 
-  /// For adding ------
-  separator,
+  /// For ```code``` text
+  code,
+
+  /// For [link](https://flutter.dev)
+  link,
 
   /// For ![Alt text](link)
   image,
+
+  /// For adding ------
+  separator,
 }
 
 /// Custom button object
@@ -168,6 +182,10 @@ extension MarkownTypeExtension on MarkdownType {
         return 'separator_button';
       case MarkdownType.image:
         return 'image_button';
+      case MarkdownType.checkedBox:
+        return 'checked_box_button';
+      case MarkdownType.uncheckedBox:
+        return 'unchecked_box_button';
     }
   }
 
@@ -194,6 +212,10 @@ extension MarkownTypeExtension on MarkdownType {
         return Icons.minimize_rounded;
       case MarkdownType.image:
         return Icons.image_rounded;
+      case MarkdownType.checkedBox:
+        return Icons.check_box_outlined;
+      case MarkdownType.uncheckedBox:
+        return Icons.check_box_outline_blank;
     }
   }
 }
