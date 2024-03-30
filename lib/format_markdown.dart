@@ -33,7 +33,7 @@ class FormatMarkdown {
         break;
       case MarkdownType.link:
         changedData = '[$selectedText](${link ?? selectedText})';
-        replaceCursorIndex = 0;
+        replaceCursorIndex = 3;
         break;
       case MarkdownType.title:
         changedData = "${"#" * titleSize} ${data.substring(fromIndex, toIndex)}";
@@ -50,7 +50,7 @@ class FormatMarkdown {
         break;
       case MarkdownType.code:
         changedData = '\n```\n${data.substring(fromIndex, toIndex)}\n```\n';
-        replaceCursorIndex = 3;
+        replaceCursorIndex = 4;
         break;
       case MarkdownType.blockquote:
         var index = 0;
@@ -67,7 +67,7 @@ class FormatMarkdown {
         break;
       case MarkdownType.image:
         changedData = '![$selectedText](${link ?? selectedText})';
-        replaceCursorIndex = 3;
+        replaceCursorIndex = 1;
         break;
       case MarkdownType.checkedBox:
         changedData = '- [x] ${data.substring(fromIndex, toIndex)}';
