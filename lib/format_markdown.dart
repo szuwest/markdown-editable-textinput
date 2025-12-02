@@ -46,6 +46,9 @@ class FormatMarkdown {
           index++;
           return index == splitedData.length ? '* $value' : '* $value\n';
         }).join();
+        if (!data.endsWith('\n') && fromIndex == toIndex) {
+          changedData = '\n$changedData';
+        }
         replaceCursorIndex = 0;
         break;
       case MarkdownType.code:
@@ -57,7 +60,7 @@ class FormatMarkdown {
         final splitedData = data.substring(fromIndex, toIndex).split('\n');
         changedData = splitedData.map((value) {
           index++;
-          return index == splitedData.length ? '> $value' : '> $value\n';
+          return index == splitedData.length ? '\n> $value' : '\n> $value\n';
         }).join();
         replaceCursorIndex = 0;
         break;
@@ -71,10 +74,16 @@ class FormatMarkdown {
         break;
       case MarkdownType.checkedBox:
         changedData = '- [x] ${data.substring(fromIndex, toIndex)}';
+        if (!data.endsWith('\n') && fromIndex == toIndex) {
+          changedData = '\n$changedData';
+        }
         replaceCursorIndex = 0;
         break;
         case MarkdownType.uncheckedBox:
         changedData = '- [ ] ${data.substring(fromIndex, toIndex)}';
+        if (!data.endsWith('\n') && fromIndex == toIndex) {
+          changedData = '\n$changedData';
+        }
         replaceCursorIndex = 0;
         break;
     }
